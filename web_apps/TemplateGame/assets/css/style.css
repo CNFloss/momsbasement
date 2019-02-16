@@ -1,0 +1,49 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  touch-action: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas {
+	background-color: green;
+}
+
+h1 {
+	text-align: center;
+}
+
+.hide {
+	display: none;
+}
+
+.middle-content {
+	display: inline-block;
+}
+
+.right-side {
+
+}
+
+.left-side {
+	border: 2px black solid;
+	margin: 5vw;
+	padding: 1vw;
+	height: 100%:;
+	width: 15%;
+	float: left;
+}
