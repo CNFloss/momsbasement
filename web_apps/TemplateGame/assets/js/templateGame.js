@@ -2,7 +2,7 @@
 
 //By default load any module IDs from js/lib
 
-requirejs.config({ baseUrl: "assets/js/lib" });
+requirejs.config({ baseUrl: "TemplateGame/assets/js/lib" });
 
 // Load all Modules.
 requirejs([
