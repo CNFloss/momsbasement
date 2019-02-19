@@ -1,1 +1,1 @@
-console.log("main web app loaded");
+console.log(window.location.search);
