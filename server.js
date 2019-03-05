@@ -5,16 +5,14 @@ require("dotenv").config();
 const BLOG_POST = require("./schemas/blogSchema");
 
 // Server imports
+const PATH = require("path");
+
 const EXPRESS = require("express");
-const SESSION_UPDATER = require("./routes/session-updater");
-const SESSION_DISPLAY_LOGIC = require("./routes/session-display-logic");
+const EXPHBS = require("express-handlebars");
 
 const SERVER = EXPRESS();
 
-SERVER.use(SESSION_UPDATER);
-SERVER.use(SESSION_DISPLAY_LOGIC);
-
-SERVER.use(EXPRESS.static(__dirname + "/web_apps"));
+SERVER.use(EXPRESS.static(PATH.join(__dirname, "assets")));
 
 const MONGOOSE = require("mongoose");
 
@@ -37,29 +35,39 @@ let data = new BLOG_POST({
 data.save();
 */
 
-// Custom Template Engine
-SERVER.set("views", "./views"); // specify the views directory
-SERVER.set("view engine", "pug"); // register the template engine
+const HBS = EXPHBS.create({
+  defaultLayout: "main",
+  partialsDir: [
+    "views/partials"
+  ]
+});
 
-SERVER.get(/w*/, (req, res) => {
+SERVER.engine("handlebars", HBS.engine); // specify the views directory
+SERVER.set("view engine", "handlebars"); // register the template engine
 
-  if (req.session.meta.kill) {
-    req.session.meta.kill = false;
-    res.redirect("/");
-  } 
-  else {
-    /*BLOG_POST.find().then(
+SERVER.get("/", (req, res) => {
+  /*BLOG_POST.find().then(
       (doc) => {console.log(doc)},
       err => { console.err(err); }
     );*/
-    //res.sendFile(__dirname + req.session.app);
-    let temp = {
-      kill: req.session.meta.kill,
-      stylesheet: "/web_apps/templategame/assets/css/style.css"
-    };
-    res.render("index", temp);
-  }
+  //res.sendFile(__dirname + req.session.app);
+  res.render("home", {title: "Home"});
+  
+});
 
+SERVER.get("/portfolio", (req, res) => {
+  /*BLOG_POST.find().then(
+      (doc) => {console.log(doc)},
+      err => { console.err(err); }
+    );*/
+  //res.sendFile(__dirname + req.session.app);
+  res.render("portfolio", {title: "Portfolio"});
+  
+});
+
+SERVER.get("/games", (req, res) => {
+  res.render("games", {title: "Games", cssFile: "games"});
+  
 });
 
 SERVER.listen(8080, () => console.log("server is running"));

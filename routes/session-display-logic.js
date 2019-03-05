@@ -5,7 +5,7 @@ const router = module.exports = EXPRESS.Router();
 const displayMap = {
   main: (function() {
     return ({
-      path: "/web_apps/mainwebapplication/index.html"/*,
+      path: "/index.pug"/*,
       views: {
         home: {},
         loader: {},
@@ -26,11 +26,11 @@ router.use((req, res, next) => {
   console.log(app, view, spot, req.session.meta.requestQueue, displayDispatch(app));
 
   if (displayDispatch(app)) {
-    req.session.app = displayDispatch(app).path;
+    req.session.meta.current = displayDispatch(app).path;
   }
   else {
     console.log("session current app not set");
-    req.session.app = displayMap.main;
+    req.session.meta.current = displayMap.main;
   }
 
   next();

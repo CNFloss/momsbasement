@@ -1,0 +1,83 @@
+<div id="left">
+  <h1>{{> page/title}}</h1>
+
+  {{> page/nav}}
+
+  <ul id="games">
+    <li><a href="#demo">demo</a></li>
+  </ul>
+</div>
+
+<div id="right">
+  <canvas></canvas>
+</div>
+
+<script type="text/javascript">
+// This is a base script to handle asset loading.
+(function(){
+  // This is an object representing meta data for a library of games.
+  const GAMES = {
+    demo: ["engine", "game", "controller", "display", "main"]
+  };
+
+  // This will be a hash function or remain a dispatch function, accepting user input to choose the game from the library.
+  function dispatch(key) {
+    return GAMES[key];
+  }
+
+  window.onload = function(){
+    // function to make sure css is loaded
+    function loadCSS(fn) {
+      let link = document.createElement("link");
+      link.setAttribute("rel", "stylesheet");
+      link.setAttribute("href", "css/games.css");
+      document.head.appendChild(link);
+
+      for(let i = 0; i < link.length; i++) {
+        let img = document.createElement("img");
+        img.src = link[i].href;
+
+        img.onerror = function() {
+          console.log(link[i]);
+          document.head.removeChild(img);
+          if (fn) fn();
+        };
+
+        img.onload = function() {
+          console.log(link[i]);
+          document.head.removeChild(img);
+        };
+
+        document.head.appendChild(img);
+      }
+    }
+
+    loadCSS();
+
+    document.getElementById("games").addEventListener("click", function(event){
+        
+      window.setTimeout(function(){
+        let gameString = window.location.toString().split("#")[1];
+        let selection = dispatch(gameString);
+        console.log(gameString, String(window.location));
+
+        if (selection) {
+          // loop through selected titles assets and request them, deletion of previous or unneeded files needed
+          for (let i = 0; i < selection.length; i++) {
+            let script = document.createElement("script");
+            script.setAttribute("type", "text/javascript");
+            script.setAttribute("src", "js/" + dispatch("demo")[i] + ".js");
+            document.head.appendChild(script);
+          }
+        }
+
+      },0);
+
+    }, {once: true});
+
+  };
+
+})();
+  
+
+</script>

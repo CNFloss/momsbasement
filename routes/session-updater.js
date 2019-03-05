@@ -18,6 +18,7 @@ router.use((req, res, next) => {
   if (!req.session.meta) {
     if (reqUrlPath !== "/") {
       req.session.meta = { kill:true };
+      req.session.meta.current = {app:null, view:null, spot:null};
     }
     else {
       req.session.meta = {

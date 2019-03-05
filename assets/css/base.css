@@ -1,0 +1,17 @@
+* {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+.cell {
+  display: inline-block;
+  border: solid black 1px;
+  background-color: blue;
+  width: 10rem;
+  height: 10rem;
+}
